@@ -1,0 +1,66 @@
+//
+// MDC Typography
+//
+@import "@material/typography/mdc-typography";
+
+
+//
+// Some defaults that may be helpful to you.
+// If you just want to use these, and not the classes, you can instead import
+// "@material/typography/mixins", and your CSS file will be smaller.
+//
+html {
+  @include mdc-typography('body1');
+}
+
+h1, h2, h3, h4 {
+  margin-top: 0;
+}
+
+h1 {
+  @include mdc-typography('headline1');
+  font-size: 3vw;
+}
+
+h2 {
+  @include mdc-typography('headline2');
+  font-size: 2.5vw;
+}
+
+h3 {
+  @include mdc-typography('headline3');
+  font-size: 2vw;
+}
+
+h4 {
+  @include mdc-typography('headline4');
+  font-size: 1.5vw;
+}
+
+h5 {
+  @include mdc-typography('headline5');
+}
+
+h6 {
+  @include mdc-typography('headline6');
+}
+
+caption {
+  @include mdc-typography('caption');
+}
+
+code, pre {
+  font-family: 'Roboto Mono', monospace;
+}
+
+small {
+  font-size: .9em;
+}
+
+big {
+  font-size: 1.1em;
+}
+
+b, strong {
+  font-weight: bold;
+}
