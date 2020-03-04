@@ -5,16 +5,23 @@
   let result_2 = 0;
   import RegisterMatch from "./RegisterMatch.svelte";
   import ResultList from "./ResultList.svelte";
+  let connection;
 
-  const connection = new WebSocket("ws://192.168.2.7:8080/ws");
+  try {
+    connection = new WebSocket("ws://192.168.2.7:8080/ws");
 
-  connection.onopen = () => {
-    console.log("WebSocket Connected :)");
-  };
-  connection.onmessage = message => {
-    result_1 = getResultByResponseMessage(message.data, "score_1");
-    result_2 = getResultByResponseMessage(message.data, "score_2");
-  };
+    connection.onopen = () => {
+      console.log("WebSocket Connected :)");
+    };
+    connection.onmessage = message => {
+      result_1 = getResultByResponseMessage(message.data, "score_1");
+      result_2 = getResultByResponseMessage(message.data, "score_2");
+    };
+  } catch(e) {
+    console.error(e);
+  }
+
+
 
   function increment(id, team) {
     const increment_key = `increment_score_${id}`;
@@ -27,10 +34,6 @@
   }
   function decrement(id, team) {
     const increment_key = `increment_score_${id}`;
-    console.log("Decrementing...");
-    const resultJson = JSON.stringify({
-      [increment_key]: -1
-    });
 
     connection.send(
       JSON.stringify({
@@ -55,7 +58,7 @@
     h1 {
       color: $black;
     }
-    button {
+    button.player__button  {
       margin: 0;
       padding: 1rem;
       min-height: 100%;
@@ -70,14 +73,12 @@
         font-size: 2rem;
         margin: 0;
       }
-      .player--button  {
-        background: red;
-        width: 100%;
-      }
+
       .player--result {
         padding: 1rem 0;
       }
     }
+         
   }
 
   @media only screen and (min-width: 600px) {
@@ -89,7 +90,7 @@
 
 <main>
   <!-- <RegisterMatch connection={connection} /> -->
-  <ResultList {connection} />
+  <ResultList />
   <h2>Spiller 1</h2>
   <button on:click={() => increment(1, 1)}>+</button>
   {result_1}
@@ -98,13 +99,13 @@
   <div class="player">
     <h2 class="player--title">Spiller 2</h2>
     <button
-      class="player--button "
+      class="player__button"
       on:click={() => increment(2, 2)}>
       +
     </button>
     <p class="player--result">{result_2}</p>
     <button
-      class="player--button player--button__increment"
+      class="player__button"
       on:click={() => decrement(2, 2)}>
       -
     </button>
